@@ -4,6 +4,10 @@ package ro.marianpavel.viablelabs.Utilities;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+/**
+ * PaginationScrollListener detects if we reach the bottom of the list.
+ * If that triggers we call the method loadMoreItems
+ */
 public abstract class PaginationScrollListener extends RecyclerView.OnScrollListener {
 
     LinearLayoutManager layoutManager;

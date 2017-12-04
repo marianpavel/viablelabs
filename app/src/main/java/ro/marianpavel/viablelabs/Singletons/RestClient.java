@@ -20,30 +20,46 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import ro.marianpavel.viablelabs.BuildConfig;
 import ro.marianpavel.viablelabs.Interfaces.RestApi;
 
+/**
+ * Singleton RestClient
+ */
 public class RestClient {
 
     private static RestClient ourInstance;
     private RestApi api;
 
-    public static RestClient getInstance(Context context) {
+    /**
+     * Singleton behavior
+     * @return RestClient instance
+     */
+    public static RestClient getInstance() {
         if (ourInstance == null) {
             ourInstance = new RestClient();
-            ourInstance.createClient(context);
+            ourInstance.createClient();
         }
 
         return ourInstance;
     }
 
-    private void createClient(Context context) {
+    private void createClient() {
 
+        /*
+          Set timeout to the object
+         */
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
         builder.readTimeout(60, TimeUnit.SECONDS);
         builder.connectTimeout(30, TimeUnit.SECONDS);
 
+        /*
+        Logging interceptor for logcat
+         */
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.addInterceptor(interceptor);
 
+        /*
+        application/json header
+         */
         builder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(@android.support.annotation.NonNull Chain chain) throws IOException {
@@ -57,6 +73,9 @@ public class RestClient {
 
         OkHttpClient client = builder.build();
 
+        /*
+        We are using Gson to consume the rest api in POJO's
+         */
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .serializeNulls()

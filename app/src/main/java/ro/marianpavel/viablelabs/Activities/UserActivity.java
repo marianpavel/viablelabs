@@ -42,6 +42,10 @@ public class UserActivity extends AppCompatActivity {
         setupListeners();
     }
 
+    /**
+     * Setup the listener to the email field
+     * When clicked it will open the default email app
+     */
     private void setupListeners() {
         email.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,6 +6,9 @@ import retrofit2.http.Query;
 import ro.marianpavel.viablelabs.POJO.GenericPOJO;
 import ro.marianpavel.viablelabs.POJO.HumanPOJO;
 
+/**
+ * Here we define every API Endpoint
+ */
 public interface RestApi {
 
     @GET("api")

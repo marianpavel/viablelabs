@@ -33,13 +33,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private SimpleDateFormat simpleDateFormat;
     private UserListener listener;
 
+    /**
+     * @param context - used for Glide library to fetch images from the given url
+     * @param myDataset - the dataset, in our case the list of humanPOJO
+     * @param listener - the listener to trigger click event
+     */
     public UserAdapter(Context context, List<HumanPOJO> myDataset, UserListener listener) {
         mDataset = myDataset;
         this.context = context;
-        calendar = Calendar.getInstance();
+        this.listener = listener;
+
+        calendar = Calendar.getInstance(); //Initialize calendar and simpledateformat in constructor for better performance
         currentYear = calendar.get(Calendar.YEAR);
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
-        this.listener = listener;
     }
 
     @Override

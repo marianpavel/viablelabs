@@ -5,6 +5,9 @@ import java.util.List;
 
 import ro.marianpavel.viablelabs.POJO.HumanPOJO;
 
+/**
+ * We define a HumanRepository to access it's data whenever we want
+ */
 public class HumanRepository {
 
     public List<HumanPOJO> humans = new ArrayList<>();

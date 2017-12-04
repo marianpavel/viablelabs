@@ -27,9 +27,21 @@ public class MainActivity extends AppCompatActivity implements UserListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+
+    /**
+     *  currentPage represents the page we are currently on
+     *  */
     private int currentPage = 1;
+
+    /**
+     * number of results the API will return
+     */
     private int maximumResults = 20;
     private ProgressBar progress;
+
+    /**
+     * while loading is true we can't trigger another infinite scroll state
+     */
     private boolean loading = false;
 
     @Override
@@ -42,10 +54,14 @@ public class MainActivity extends AppCompatActivity implements UserListener {
         fetchUsers(currentPage);
     }
 
+    /**
+     * This method is called at the start of the application and everytime the user reaches the bottom of the list
+     * @param currentPage - the page we are currently fetching users
+     */
     private void fetchUsers(final int currentPage) {
         loading = true;
         progress.setVisibility(View.VISIBLE);
-        RestClient.getInstance(this)
+        RestClient.getInstance()
                 .getApi()
                 .getHumans(currentPage, maximumResults)
                 .subscribeOn(Schedulers.newThread())
@@ -99,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements UserListener {
         progress = findViewById(R.id.loading);
     }
 
+    /**
+     * method to determinate if an user was clicked in the list
+     * @param position - the position which was clicked from the list
+     */
     @Override
     public void onUserClick(int position) {
         Intent intent = new Intent(this, UserActivity.class);
