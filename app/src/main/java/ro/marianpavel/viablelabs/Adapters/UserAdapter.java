@@ -8,7 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ro.marianpavel.viablelabs.POJO.HumanPOJO;
 import ro.marianpavel.viablelabs.R;
@@ -17,15 +25,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private List<HumanPOJO> mDataset;
     private Context context;
+    private Calendar calendar;
+    private int currentYear;
+    private SimpleDateFormat simpleDateFormat;
 
     public UserAdapter(Context context, List<HumanPOJO> myDataset) {
         mDataset = myDataset;
         this.context = context;
+        calendar = Calendar.getInstance();
+        currentYear = calendar.get(Calendar.YEAR);
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
     }
 
     @Override
     public UserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+                                                     int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.user_adapter, parent, false);
 
@@ -35,8 +49,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.name.setText(mDataset.get(holder.getAdapterPosition()).getName().getFirst());
+        HumanPOJO human = mDataset.get(holder.getAdapterPosition());
+        StringBuilder fullName = new StringBuilder(human.getName().getTitle() + " " + human.getName().getFirst() + " " + human.getName().getLast());
+        holder.name.setText(fullName);
 
+        try {
+            Date date = simpleDateFormat.parse(human.getDob());
+            calendar.setTime(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int age = currentYear - calendar.get(Calendar.YEAR);
+        holder.age.setText("Age: " + age);
+
+        Glide.with(context)
+                .load(human.getPicture().getThumbnail())
+                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                .into(holder.profilePicture);
     }
 
     @Override

@@ -42,6 +42,10 @@ public class HumanPOJO {
     private String cell;
 
     @Expose
+    @SerializedName("picture")
+    private PicturePOJO picture;
+
+    @Expose
     @SerializedName("nat")
     private String nat;
 
@@ -123,5 +127,13 @@ public class HumanPOJO {
 
     public void setNat(String nat) {
         this.nat = nat;
+    }
+
+    public PicturePOJO getPicture() {
+        return picture;
+    }
+
+    public void setPicture(PicturePOJO picture) {
+        this.picture = picture;
     }
 }
