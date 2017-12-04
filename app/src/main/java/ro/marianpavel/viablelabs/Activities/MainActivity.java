@@ -13,12 +13,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ro.marianpavel.viablelabs.Adapters.UserAdapter;
+import ro.marianpavel.viablelabs.Interfaces.UserListener;
 import ro.marianpavel.viablelabs.POJO.GenericPOJO;
 import ro.marianpavel.viablelabs.POJO.HumanPOJO;
 import ro.marianpavel.viablelabs.R;
 import ro.marianpavel.viablelabs.Singletons.RestClient;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UserListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         List<HumanPOJO> humans = new ArrayList<>();
                         if (genericPOJO != null && genericPOJO.getObject().length > 0) {
                             humans.addAll(Arrays.asList(genericPOJO.getObject()));
-                            mAdapter = new UserAdapter(getApplicationContext(), humans);
+                            mAdapter = new UserAdapter(getApplicationContext(), humans, MainActivity.this);
                             mRecyclerView.setAdapter(mAdapter);
                         }
                     }
@@ -59,5 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews() {
         mRecyclerView = findViewById(R.id.user_recycler);
+    }
+
+    @Override
+    public void onUserClick(HumanPOJO human) {
+
     }
 }

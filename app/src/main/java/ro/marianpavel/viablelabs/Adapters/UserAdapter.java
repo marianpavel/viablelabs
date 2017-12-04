@@ -1,7 +1,9 @@
 package ro.marianpavel.viablelabs.Adapters;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.mukesh.countrypicker.Country;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,8 +21,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import ro.marianpavel.viablelabs.Activities.MainActivity;
+import ro.marianpavel.viablelabs.Interfaces.UserListener;
 import ro.marianpavel.viablelabs.POJO.HumanPOJO;
 import ro.marianpavel.viablelabs.R;
+import ro.marianpavel.viablelabs.Utilities.Debug;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
@@ -28,13 +34,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Calendar calendar;
     private int currentYear;
     private SimpleDateFormat simpleDateFormat;
+    private UserListener listener;
 
-    public UserAdapter(Context context, List<HumanPOJO> myDataset) {
+    public UserAdapter(Context context, List<HumanPOJO> myDataset, UserListener listener) {
         mDataset = myDataset;
         this.context = context;
         calendar = Calendar.getInstance();
         currentYear = calendar.get(Calendar.YEAR);
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
+        this.listener = listener;
     }
 
     @Override
@@ -49,7 +57,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        HumanPOJO human = mDataset.get(holder.getAdapterPosition());
+        final HumanPOJO human = mDataset.get(holder.getAdapterPosition());
         StringBuilder fullName = new StringBuilder(human.getName().getTitle() + " " + human.getName().getFirst() + " " + human.getName().getLast());
         holder.name.setText(fullName);
 
@@ -61,12 +69,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
         int age = currentYear - calendar.get(Calendar.YEAR);
-        holder.age.setText("Age: " + age);
+        holder.age.setText(context.getString(R.string.age, String.valueOf(age)));
 
         Glide.with(context)
                 .load(human.getPicture().getThumbnail())
                 .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(holder.profilePicture);
+
+        Glide.with(context)
+                .load(Country.getCountryByISO(human.getNat()).getFlag())
+                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
+                .into(holder.flag);
+
+        holder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onUserClick(human);
+            }
+        });
     }
 
     @Override
@@ -78,6 +98,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         // each data item is just a string in this case
         TextView name, age;
         ImageView profilePicture, flag;
+        ConstraintLayout container;
 
         ViewHolder(View v) {
             super(v);
@@ -85,6 +106,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             age = v.findViewById(R.id.age);
             profilePicture = v.findViewById(R.id.profilePicture);
             flag = v.findViewById(R.id.countryFlag);
+            container = v.findViewById(R.id.container);
         }
     }
 }

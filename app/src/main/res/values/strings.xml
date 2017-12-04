@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">viablelabs</string>
+    <string name="age">Age: %1$s</string>
 </resources>
