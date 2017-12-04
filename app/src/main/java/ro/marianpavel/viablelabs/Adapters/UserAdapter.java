@@ -52,7 +52,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final HumanPOJO human = mDataset.get(holder.getAdapterPosition());
         StringBuilder fullName = new StringBuilder(human.getName().getTitle() + " " + human.getName().getFirst() + " " + human.getName().getLast());
@@ -81,7 +81,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onUserClick(human);
+                listener.onUserClick(holder.getAdapterPosition());
             }
         });
     }
