@@ -20,7 +20,7 @@ android {
     flavorDimensions "tier"
     productFlavors {
         Demo {
-            buildConfigField 'String', "API_URL", "\"https://randomuser.me/api\""
+            buildConfigField 'String', "API_URL", "\"https://randomuser.me/\""
             dimension "tier"
         }
     }
