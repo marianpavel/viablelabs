@@ -19,7 +19,7 @@ public class LocationPOJO {
 
     @Expose
     @SerializedName("postcode")
-    private int postcode;
+    private String postcode;
 
     public String getStreet() {
         return street;
@@ -45,11 +45,11 @@ public class LocationPOJO {
         this.state = state;
     }
 
-    public int getPostcode() {
+    public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(int postcode) {
+    public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 }

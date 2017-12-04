@@ -9,6 +9,10 @@ public class GenericPOJO<T> {
     @SerializedName("results")
     private T object;
 
+    @Expose
+    @SerializedName("info")
+    private InfoPOJO info;
+
     public T getObject() {
         return object;
     }
