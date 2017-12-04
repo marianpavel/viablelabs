@@ -1,7 +1,9 @@
-package ro.marianpavel.viablelabs;
+package ro.marianpavel.viablelabs.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import ro.marianpavel.viablelabs.R;
 
 public class MainActivity extends AppCompatActivity {
 
