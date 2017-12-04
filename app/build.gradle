@@ -16,6 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "tier"
+    productFlavors {
+        Demo {
+            buildConfigField 'String', "API_URL", "\"https://randomuser.me/api\""
+            dimension "tier"
+        }
+    }
 }
 
 dependencies {
