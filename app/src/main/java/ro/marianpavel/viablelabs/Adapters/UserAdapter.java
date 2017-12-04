@@ -3,7 +3,6 @@ package ro.marianpavel.viablelabs.Adapters;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +20,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import ro.marianpavel.viablelabs.Activities.MainActivity;
 import ro.marianpavel.viablelabs.Interfaces.UserListener;
 import ro.marianpavel.viablelabs.POJO.HumanPOJO;
 import ro.marianpavel.viablelabs.R;
-import ro.marianpavel.viablelabs.Utilities.Debug;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
@@ -95,7 +92,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         TextView name, age;
         ImageView profilePicture, flag;
         ConstraintLayout container;
